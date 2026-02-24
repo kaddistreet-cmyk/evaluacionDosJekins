@@ -8,46 +8,25 @@ import time
 service = Service(executable_path="msedgedriver.exe")
 driver = webdriver.Edge(service=service)
 
-driver.get("https://www.saucedemo.com/")
+driver.get("https://webdriveruniversity.com/")
+
 WebDriverWait(driver, 10).until(
-    EC.presence_of_all_elements_located((By.XPATH, '//input[@placeholder="Username"]'))
+    EC.presence_of_all_elements_located((By.ID, "ajax-loader"))
 )
 
-username_input = driver.find_element(By.XPATH, '//input[@placeholder="Username"]')
-username_input.send_keys("standard_user")
-
-password_input = driver.find_element(By.XPATH, '//input[@name="password"]')
-password_input.send_keys("secret_sauce")
-
-boton_login = driver.find_element(By.XPATH, '//input[contains(@value, "Login")]')
-boton_login.click()
+boton_loader = driver.find_element(By.ID, "ajax-loader")
+boton_loader.click()
 
 WebDriverWait(driver, 10).until(
-    EC.presence_of_all_elements_located((By.XPATH,'//div[contains(text(), "T-Shirt")]/../../..//button[contains(text(), "Add")]')))
-
-boton_agregar = driver.find_element(By.XPATH,'//div[contains(text(), "T-Shirt")]/../../..//button[contains(text(), "Add")]')
-boton_agregar.click()
-
-WebDriverWait(driver, 10).until(
-    EC.presence_of_all_elements_located((By.XPATH,'//div[contains(text(), "Onesie")]/../../..//button[contains(text(), "Add")]')))
-
-boton_agregar = driver.find_element(By.XPATH,'//div[contains(text(), "Onesie")]/../../..//button[contains(text(), "Add")]')
-boton_agregar.click()
-
-WebDriverWait(driver, 10).until(
-    EC.presence_of_all_elements_located((By.XPATH,'//div[contains(text(), "Fleece Jacket")]/../../..//button[contains(text(), "Add")]')))
-
-boton_agregar = driver.find_element(By.XPATH,'//div[contains(text(), "Fleece Jacket")]/../../..//button[contains(text(), "Add")]')
-boton_agregar.click()
-
-boton_cart = driver.find_element(By.CLASS_NAME, "shopping_cart_link")
-boton_cart.click()
-
-WebDriverWait(driver, 10).until(
-    EC.element_to_be_clickable((By.ID, "checkout"))
+    lambda d: len(d.window_handles) == 2
 )
 
-boton_checkout = driver.find_element(By.XPATH, '//button[@id="checkout"]')
-boton_checkout.click()
+driver.switch_to.window(driver.window_handles[1])
 
-time.sleep(5)
+WebDriverWait(driver, 20).until(
+    EC.presence_of_all_elements_located((By.ID, "button1"))
+)
+
+boton = driver.find_element(By.ID, "button1")
+boton.click()
+
