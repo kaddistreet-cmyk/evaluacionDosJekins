@@ -30,3 +30,8 @@ WebDriverWait(driver, 20).until(
 boton = driver.find_element(By.ID, "button1")
 boton.click()
 
+WebDriverWait(driver, 10).until(
+    EC.presence_of_all_elements_located((By.XPATH, "//button[text()='Close']"))
+)
+
+driver.find_element(By.XPATH, "//button[text()='Close']").click()
